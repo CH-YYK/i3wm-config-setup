@@ -13,6 +13,7 @@ cp $DEFAULT_POLYBAR_PATH/config ./polybar/  # polybar config
 cp $DEFAULT_POLYBAR_PATH/i3wmthemer_bar_launch.sh ./polybar/  # polybar launcher
 
 cp $DEFAULT_CONKY_PATH/conky*conf ./conky/  # conky configures
+cp $DEFAULT_CONKY_PATH/launch_conky.sh ./conky/  # conky launcher
 
 
 # update screen layouts
