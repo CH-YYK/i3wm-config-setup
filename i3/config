@@ -21,7 +21,8 @@ bindsym $mod+Shift+q kill
 
 # start program launcher
 bindsym $mod+d exec --no-startup-id rofi -show run
-bindsym $mod+Ctrl+d exec --no-startup-id dmenu_run
+bindsym $mod+Ctrl+d exec --no-startup-id rofi -show drun
+# bindsym $mod+Ctrl+d exec --no-startup-id dmenu_run
 
 
 # change focus
@@ -189,8 +190,8 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Set shut down, restart and locking features
 set $Locker /usr/bin/i3lock-fancy
-set $layout_work /home/yikang/.screenlayout/work_mode.sh
-set $layout_laptop /home/yikang/.screenlayout/laptop_mode.sh
+set $layout_work $HOME/.screenlayout/work_mode.sh
+set $layout_laptop $HOME/.screenlayout/laptop_mode.sh
 
 
 bindsym $mod+0 mode "$mode_system"
@@ -257,6 +258,8 @@ exec_always --no-startup-id fix_xcursor
 exec_always --no-startup-id $HOME/.config/polybar/i3wmthemer_bar_launch.sh
 # exec_always --no-startup-id i3-msg 'workspace $ws1; exec $HOME/i3-scripts/launch_ws1.sh'
 exec --no-startup-id clipit
+# launch conky config
+exec_always --no-startup-id $HOME/.config/conky/launch_conky.sh
 
 
 # Theme colors
