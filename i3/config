@@ -190,8 +190,8 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Set shut down, restart and locking features
 set $Locker /usr/bin/i3lock-fancy
-set $layout_work /home/yikang/.screenlayout/work_mode.sh
-set $layout_laptop /home/yikang/.screenlayout/laptop_mode.sh
+set $layout_work $HOME/.screenlayout/work_mode.sh
+set $layout_laptop $HOME/.screenlayout/laptop_mode.sh
 
 
 bindsym $mod+0 mode "$mode_system"
