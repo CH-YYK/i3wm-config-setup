@@ -1,9 +1,9 @@
 #!/bin/sh
 
-DEFAULT_POLYBAR_PATH=~/.config/polybar/
-DEFAULT_I3_PATH=~/.config/i3/
-DEFAULT_CONKY_PATH=~/.config/conky/
-DEFAULT_SCREENLAYOUTS=~/.screenlayout/
+DEFAULT_POLYBAR_PATH=$HOME/.config/polybar/
+DEFAULT_I3_PATH=$HOME/.config/i3/
+DEFAULT_CONKY_PATH=$HOME/.config/conky/
+DEFAULT_SCREENLAYOUTS=$HOME/.screenlayout/
 
 # update configs
 cp $DEFAULT_I3_PATH/config ./i3/   # i3 config
@@ -18,5 +18,4 @@ cp $DEFAULT_CONKY_PATH/launch_conky.sh ./conky/  # conky launcher
 cp $HOME/.spacemacs ./.spacemacs # update .spacemacs configurations
 cp -r $HOME/dotspacemacs/* ./dotspacemacs/  # update .spacemacs exteranl configurations
 
-# update screen layouts
-cp -r $DEFAULT_SCREENLAYOUTS ./
+cp -r $DEFAULT_SCREENLAYOUTS ./  # update screen layouts
