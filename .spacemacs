@@ -32,61 +32,56 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(csv
-     html
-     imenu-list
-     javascript
-     yaml
-     json
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     ;; auto-completion
      ;; better-defaults
-     (python :variables python-backend 'anaconda)
-     java
-     (c-c++ :variables
-            c-c++-default-mode-for-headers 'c++-mode
-            c-c++-enable-clang-support t
-						c-c++-enable-google-style t
-            )
-     version-control
      emacs-lisp
      git
      helm
      ;; lsp
-     markdown
+     ;; markdown
      multiple-cursors
-     (org :variables
-          org-enable-github-support t
-          org-enable-bootstrap-support t)
+     org
+		 (c-c++ :variables
+            c-c++-enable-clang-sup0port t
+            c-c++-backend "lsp-clangd"
+            )
+		 (auto-completion :variables
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-idle-delay 0.0
+                      )
+     python
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
-     syntax-checking
-     ;; version-control
-     (treemacs :variables
-               treemacs-width 35))
+     (syntax-checking :variables
+                      syntax-checking-enable-by-default nil)
+     version-control
+     treemacs)
 
 
-   ;; List of additional packages that will be installed without being
-   ;; wrapped in a layer. If you need some configuration for these
-   ;; packages, then consider creating a layer. You can also put the
-   ;; configuration in `dotspacemacs/user-config'.
-   ;; To use a local version of a package, use the `:location' property:
-   ;; '(your-package :location "~/path/to/your-package/")
+   ;; List of additional packages that will be installed without being wrapped
+   ;; in a layer (generally the packages are installed only and should still be
+   ;; loaded using load/require/use-package in the user-config section below in
+   ;; this file). If you need some configuration for these packages, then
+   ;; consider creating a layer. You can also put the configuration in
+   ;; `dotspacemacs/user-config'. To use a local version of a package, use the
+   ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(org-pomodoro)
+   dotspacemacs-additional-packages '(org-pomodoro doom-themes)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   ;; disable `'vi-tilde-fringe`'
-   dotspacemacs-excluded-packages '(vi-tilde-fringe)
+   dotspacemacs-excluded-packages '()
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -151,7 +146,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
-   ;; latest version of packages from MELPA. (default nil)
+   ;; latest version of packages from MELPA. Spacelpa is currently in
+   ;; experimental state please use only for testing purposes.
+   ;; (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
@@ -193,9 +190,13 @@ It should only modify the values of Spacemacs settings."
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
-   ;; `recents' `bookmarks' `projects' `agenda' `todos'.
+   ;; `recents' `recents-by-project' `bookmarks' `projects' `agenda' `todos'.
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
+   ;; The exceptional case is `recents-by-project', where list-type must be a
+   ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
+   ;; number is the project limit and the second the limit on the recent files
+   ;; within a project.
    dotspacemacs-startup-lists '((recents . 5)
                                 (projects . 7))
 
@@ -210,6 +211,14 @@ It should only modify the values of Spacemacs settings."
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
 
+   ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
+   ;; *scratch* buffer will be saved and restored automatically.
+   dotspacemacs-scratch-buffer-persistent nil
+
+   ;; If non-nil, `kill-buffer' on *scratch* buffer
+   ;; will bury it instead of killing.
+   dotspacemacs-scratch-buffer-unkillable nil
+
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
    dotspacemacs-initial-scratch-message nil
@@ -218,19 +227,13 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(doom-dark+
-                         doom-one
-												 misterioso
-                         cyberpunk
-												 spacemacs-dark
-                         gruvbox-dark-hard
-                         monokai
+                         spacemacs-dark
                          spacemacs-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
    ;; first three are spaceline themes. `doom' is the doom-emacs mode-line.
-   ;; `vanilla' is default
-   ;; Emacs mode-line. `custom' is a user defined themes,
+   ;; `vanilla' is default Emacs mode-line. `custom' is a user defined themes,
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
@@ -240,9 +243,12 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("JetbrainsMono-Regular"
-                               :size 12
+   ;; Default font or prioritized list of fonts. The `:size' can be specified as
+   ;; a non-negative integer (pixel size), or a floating-point (point size).
+   ;; Point size is recommended, because it's device independent. (default 10.0)
+   dotspacemacs-default-font '("Jetbrain Mono Regular"
+                               "Source Code Pro"
+                               :size 10.0
                                :weight normal
                                :width normal)
 
@@ -396,9 +402,9 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers '(:disabled-for-modes treemacs-mode)
 
-   ;; Code folding method. Possible values are `evil' and `origami'.
+   ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
 
@@ -459,6 +465,9 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil - same as frame-title-format)
    dotspacemacs-icon-title-format nil
 
+   ;; Show trailing whitespace (default t)
+   dotspacemacs-show-trailing-whitespace t
+
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
@@ -491,9 +500,10 @@ It should only modify the values of Spacemacs settings."
 
    ;; If nil the home buffer shows the full path of agenda items
    ;; and todos. If non nil only the file name is shown.
-   dotspacemacs-home-shorten-agenda-source nil)
-  )
+   dotspacemacs-home-shorten-agenda-source nil
 
+   ;; If non-nil then byte-compile some of Spacemacs files.
+   dotspacemacs-byte-compile nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -509,7 +519,6 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  
   )
 
 (defun dotspacemacs/user-load ()
@@ -525,106 +534,25 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; Coding indentation settings
-  (setq indent-tabs-mode t
-        tab-width 2
-        c-basic-offset 2)
-
+	;; treemacs appearance settings
+  ;; (setq global-company-mode t)  set value to env
   (setq-default truncate-lines t)
 
-  (setq python-indent-offset 2
-        python-tab-width 2)
 
-  (setq flycheck-highlighting-mode "lines"
-        flycheck-check-syntax-automatically '(save mode-enabled)
-        ;; the default value was '(save idle-change new-line mode-enabled)
-        flycheck-idle-change-delay 4
-        )
+  ;; line numbers on
+  ;; (spacemacs/toggle-line-numbers-on)
+  (load "~/dotspacemacs/config-generals")
+  (user/config-general-basics)
 
-	;; treemacs appearance settings
-	(treemacs-resize-icons 20)
+  (load "~/dotspacemacs/config-org-mode")
+  (user/config-org-basics)
+  (user/config-org-captures-templates)
+  (user/config-org-agenda)
 
-  ;; org-mode settings
-	(setq org-todo-keyword-faces
-				'(
-					("TODO" . "#dc752f")
-					("NEXT" . "#dc752f")
-					("PROGRESS" . "#4f97d7")
-					("CANCEL" . "#f2241f")
-					("FIX" . "#dc752f")
-					)
-				)
-  (setq org-directory "~/self_project/org-agenda-files/")
-	(setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
 
-	(setq org-capture-templates  ;; set org-mode capture templates
-				'(
-					;; '%a' represent a link
-					;; capture file and headline, save to gtd.org, under header Tasks
-					("t" "Todo tasks")
-					("tg" "General and simple tasks" entry (file+headline "~/self_project/org-agenda-files/gtd.org" "Tasks")
-					 "* TODO %?     :SELF:\n  %i\n"
-					 :empty-lines 1)
-					("ta" "Emergencies that must be done right now" entry (file+headline "~/self_project/org-agenda-files/gtd.org" "Emergencies")
-					 "* TODO \[#A\] %?     :SELF:\n"
-					 :clock-in t
-					 :empty-lines 1)
+  (load "~/dotspacemacs/config-development")
+  (user/config-cpp-keybinds))
 
-					;; capture ideas/nodes/memo
-          ("d" "Quick notes or ideas to implement")
-          ("dn" "Notes taken along with reading" entry (file+datetree "~/self_project/org-agenda-files/ideas.org" "Notes")
-           "* %? :SELF:NOTES:\nEntered on %U\n %l"
-           :tree-type month
-           :empty-lines 1
-           )
-
-					("di" "ideas or memorandum" entry (file+datetree "~/self_project/org-agenda-files/ideas.org" "Ideas")
-					 "* %? :SELF:MEMO:\nCreated on %U\n %i\n "
-					 :tree-type month
-					 :kill-buffer t
-					 :empty-lines 1)
-
-          ("b" "Blogs" entry (file+datetree "~/self_project/org-agenda-files/blogs.org" "Blogs"))
-					))
-
-  (setq org-agenda-files
-        (quote
-         ("~/self_project/org-agenda-files/work.org"    ;; On-duty scheduled tasks to work on with Tag :DMAI:
-          "~/self_project/org-agenda-files/random.org"  ;; Personal scheduled tasks with Tag :self:
-					"~/self_project/org-agenda-files/ideas.org"   ;; Temporary ideas
-          "~/self_project/org-agenda-files/gtd.org"     ;; Temporary TODO tasks 
-          "~/self_project/org-agenda-files/journal.org" ;; To-be-reviewed materials
-          )))
-  (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
-  (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE" "|" "FAIL")))
-	(setq org-hide-emphasis-markers t)  ;; hide *...*
-  (font-lock-add-keywords 'org-mode
-                          '(("^*\\([-]\\)"
-                            (0 (prog1()(compose-region (match-beginning 1)(match-end 1) "~"))))))
-  (setq org-agenda-custom-commands  	;; Customized commands for agenda.
-        '(
-          ("w" . "Tasks")
-          ("wa" "Emergency and Important" tags-todo "+PRIORITY=\"A\"")
-					("wb" "Non-Emergency but Important" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
-					("wc" "Non-Emergency and Non-important" tags-todo "+PRIORITY=\"C\"")
-
-					("p" . "Projects")
-					("pw" tags-todo "PROJECT+WORK+CATEGORY=\"DMAI\"")
-					("pl" tags-todo "PROJECT+CATEGORY=\"SELF\"")
-          ))
-	(custom-set-faces   ;; set header face in org-mode
-	 '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
-	 '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
-	 '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
-	 '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
-	 '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
-	 '(org-property-value ((t (:inherit fixed-pitch :height 0.8))))
-	 )
-
-  ;; pomodoro
-  (setq org-pomodoro-length 30
-        org-pomodoro-short-break-length 10)
-  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -640,14 +568,11 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("0a41da554c41c9169bdaba5745468608706c9046231bbbc0d155af1a12f32271" "0685ffa6c9f1324721659a9cd5a8931f4bb64efae9ce43a3dba3801e9412b4d8" "74ba9ed7161a26bfe04580279b8cad163c00b802f54c574bfa5d924b99daa4b9" "4bca89c1004e24981c840d3a32755bf859a6910c65b829d9441814000cf6c3d0" "e6ff132edb1bfa0645e2ba032c44ce94a3bd3c15e3929cdf6c049802cf059a2a" "95d0ed21bb0e919be7687a25ad59a1c2c8df78cbe98c9e369d44e65bfd65b167" "aaa4c36ce00e572784d424554dcc9641c82d1155370770e231e10c649b59a074" "2c49d6ac8c0bf19648c9d2eabec9b246d46cb94d83713eaae4f26b49a8183fc4" "56d10d2b60685d112dd54f4ba68a173c102eacc2a6048d417998249085383da1" "3c2f28c6ba2ad7373ea4c43f28fcf2eed14818ec9f0659b1c97d4e89c99e091e" "e1ef2d5b8091f4953fe17b4ca3dd143d476c106e221d92ded38614266cea3c8b" "fce3524887a0994f8b9b047aef9cc4cc017c5a93a5fb1f84d300391fba313743" "76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" "be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" "990e24b406787568c592db2b853aa65ecc2dcd08146c0d22293259d400174e37" "0fe24de6d37ea5a7724c56f0bb01efcbb3fe999a6e461ec1392f3c3b105cc5ac" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" "77113617a0642d74767295c4408e17da3bfd9aa80aaa2b4eeb34680f6172d71a" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "8b58ef2d23b6d164988a607ee153fd2fa35ee33efc394281b1028c2797ddeebb" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" default)))
+    ("76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" default)))
  '(evil-want-Y-yank-to-eol nil)
- '(org-agenda-files
-   (quote
-    ("~/Dropbox/org/random.org" "~/Dropbox/org/games.org" "~/Dropbox/org/work.org" "~/Dropbox/org/study.org" "~/Dropbox/org/ideas.org")))
  '(package-selected-packages
    (quote
-    (doom-themes cyberpunk-theme git-gutter-fringe+ fringe-helper git-gutter+ browse-at-remote csv-mode ox-twbs ox-gfm orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-cliplink org-brain helm-org-rifle helm-org gnuplot evil-org web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode htmlize helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data add-node-modules-path helm-rtags google-c-style flycheck-ycmd flycheck-rtags disaster cpp-auto-include company-ycmd ycmd request-deferred company-rtags rtags company-c-headers ccls mvn meghanada maven-test-mode lsp-ui lsp-java helm-lsp groovy-mode groovy-imports pcache gruvbox-theme autothemer flycheck-pos-tip pos-tip yasnippet-snippets mmm-mode markdown-toc helm-company helm-c-yasnippet gh-md fuzzy auto-yasnippet yasnippet ac-ispell auto-complete yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-gtags helm-cscope xcscope ggtags dap-mode posframe lsp-treemacs bui lsp-mode markdown-mode dash-functional cython-mode counsel-gtags counsel swiper ivy company-anaconda company blacken anaconda-mode pythonic ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-persp treemacs-icons-dired treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons all-the-icons memoize spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck let-alist flycheck-elsa flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils pkg-info epl elisp-slime-nav editorconfig dumb-jump dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
+    (treemacs-magit smeargle orgit magit-svn magit-section magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge markdown-mode magit ghub closql emacsql-sqlite emacsql treepy yapfify ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toc-org spaceline powerline restart-emacs request rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor transient git-gutter fuzzy flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu elisp-slime-nav dumb-jump doom-themes disaster diminish diff-hl define-word cython-mode company-statistics company-c-headers company-anaconda company column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup doom-dark+-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -660,5 +585,18 @@ This function is called at the very end of Spacemacs initialization."
  '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
  '(org-property-value ((t (:inherit fixed-pitch :height 0.8))) t))
 )
-
-
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
+ '(package-selected-packages
+   (quote
+    (yapfify ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toc-org spaceline powerline restart-emacs request rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor transient git-gutter fuzzy flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu elisp-slime-nav dumb-jump doom-themes disaster diminish diff-hl define-word cython-mode company-statistics company-c-headers company-anaconda company column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup doom-dark+-theme))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
