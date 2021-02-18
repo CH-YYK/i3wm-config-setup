@@ -56,6 +56,10 @@
 					 :kill-buffer t
 					 :empty-lines 1)
 
+          ("dl" "LeetCode notes" entry (file+headline "~/self_project/org-agenda-files/ideas.org" "LeetCode Challenges")
+           "* %? :SELF:LeetCode: \n Created on %U \n %l"
+           :empty-lines 1)
+
           ("b" "Blogs" entry (file+datetree "~/self_project/org-agenda-files/blogs.org" "Blogs"))
 					))
   )
