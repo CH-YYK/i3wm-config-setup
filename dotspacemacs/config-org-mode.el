@@ -43,34 +43,33 @@
 					("t" "Todo tasks")
 					("tg" "General and simple tasks" entry (file+headline "~/self_project/org-agenda-files/gtd.org" "Tasks")
 					 "* TODO %?     :SELF:\n  %i\n"
-					 :empty-lines t)
+					 :empty-lines 1)
 					("ta" "Emergencies that must be done right now" entry (file+headline "~/self_project/org-agenda-files/gtd.org" "Emergencies")
 					 "* TODO \[#A\] %?     :SELF:\n"
 					 :clock-in t
-					 :empty-lines t)
+					 :empty-lines 1)
 
 					;; capture ideas/nodes/memo
           ("d" "Quick notes or ideas to implement")
           ("dn" "Notes taken along with reading" entry (file+datetree "~/self_project/org-agenda-files/ideas.org" "Notes")
            "* %? :SELF:NOTES:\nEntered on %U\n %l \n %i"
            :tree-type month
-           :empty-lines t
-           )
+           :empty-lines 1)
 
 					("di" "ideas and potential todo list" entry (file+datetree "~/self_project/org-agenda-files/ideas.org" "Ideas")
 					 "* %? :SELF:Ideas: \nCreated on %U\n %i\n "
 					 :tree-type month
 					 :kill-buffer t
-					 :empty-lines t)
+					 :empty-lines 1)
 
           ("dm" "Memorandum" entry (file+datetree "~/self_project/org-agenda-files/memo.org" "Memoization")
-           "* %? :SELF:MEMO:  \n Entered on %U %i\n"
+           "* %? :SELF:MEMO:  \nEntered on %U\n %i\n"
            :tree-type month
-           :empty-lines t)
+           :empty-lines 1)
 
           ("dl" "LeetCode notes" entry (file+headline "~/self_project/org-agenda-files/journal.org" "LeetCode Challenges")
            "* [LeetCode Contest] %? :SELF:LeetCode: \n Created on %U \n %l"
-           :empty-lines t)
+           :empty-lines 1)
 
           ("b" "Blogs" entry (file+datetree "~/self_project/org-agenda-files/blogs.org" "Blogs"))
 					))

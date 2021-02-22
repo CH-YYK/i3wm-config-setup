@@ -9,11 +9,8 @@
 
   ;; Coding indentation settings
   (setq indent-tabs-mode t
-        tab-width 2
+        tab-width 4
         c-basic-offset 2)
-
-  (setq python-indent-offset 2
-        python-tab-width 2)
 
   ;; treemacs
   (treemacs-resize-icons 15)

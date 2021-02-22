@@ -56,6 +56,7 @@ This function should only modify configuration layer settings."
                       auto-completion-idle-delay 0.0
 											auto-completion-enable-snippets-in-popup t
                       )
+     sql
      (python :variables
              python-backend 'lsp
              python-lsp-server 'pyls
