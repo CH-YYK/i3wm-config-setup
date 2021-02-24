@@ -4,8 +4,8 @@
   )
 
 (defun user/config-general-basics ()
-  (setq max-specpdl-size 130000)
-  (setq max-lisp-eval-depth 130000)
+  (setq max-specpdl-size 13000)
+  (setq max-lisp-eval-depth 13000)
 
   ;; Coding indentation settings
   (setq indent-tabs-mode t
