@@ -1,9 +1,9 @@
 (defun user/config-org-mode()
   ;; call for all
+  (user/config-org-font-size)
   (user/config-org-basics)
   (user/config-org-agenda)
   (user/config-org-captures-templates)
-  (user/config-org-font-size)
   )
 
 (defun user/config-org-font-size ()
@@ -26,14 +26,17 @@
      `(org-level-5 ((t (,@headline ,@variable-tuple ))))
      `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.0))))
      `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.1))))
-     `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.2))))
+     `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.15))))
      `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.3
                                    ))))
-     `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
+     `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))))
 
   (custom-set-faces
    '(variable-pitch ((t (:family "Monospace" :height 110 :weight thin))))
-   '(fixed-pitch ((t ( :family "Monospace" :height 130)))))
+   '(fixed-pitch ((t ( :family "Monospace" :height 100)))))
+
+  (add-hook 'org-mode-hook 'variable-pitch-mode)
+  (add-hook 'org-mode-hook 'visual-line-mode)
 
   (custom-set-faces
    '(org-block ((t (:inherit fixed-pitch))))
@@ -48,11 +51,6 @@
    '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
    '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
    '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
-
-  ;; buffer font size
-  (add-hook 'org-mode-hook
-            (lambda () (text-scale-decrease 0)))
-  (add-hook 'org-mode-hook 'variable-pitch-mode)
   )
 
 (defun user/config-org-basics()
