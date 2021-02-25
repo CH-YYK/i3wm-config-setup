@@ -1,3 +1,10 @@
+(defun user/config-development ()
+  (setq-default company-mode t)
+  (user/config-cpp-env)
+  (user/config-python-env)
+  )
+
+
 (defun user/config-cpp-env ()
   ;; bind tab to company-clang in C++mode
   (require 'company-clang)
@@ -17,9 +24,4 @@
 
   ;; flycheck
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  )
-
-(defun user/config-development ()
-  (user/config-cpp-env)
-  (user/config-python-env)
   )
