@@ -45,13 +45,17 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      helm
-     ;; lsp
+     lsp
      ;; markdown
      multiple-cursors
      org
+     (dap :variables
+          dap-enable-ui-controls t
+          dap-auto-configure-features '(sessions locals breakpoints expressions tooltip))
      (c-c++ :variables
-            c-c++-backend 'rtags
-            c-c++-enable-rtags-completion t)
+            c-c++-adopt-subprojects t
+            c-c++-backend 'lsp-ccls
+            c-c++-dap-adapters '(dap-cpptools))
 		 (auto-completion :variable
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle

@@ -7,9 +7,11 @@
 
 (defun user/config-cpp-env ()
   ;; bind tab to company-clang in C++mode
-  (require 'company-clang)
+  (require 'company-capf)
   (add-hook 'c++-mode-hook
             (lambda () (define-key c++-mode-map (kbd "C-<tab>") 'company-clang)))
+  (add-hook 'c++-mode-hook
+            (lambda () (setq flycheck-gcc-language-standard "c++11")))
 
   ;; (eval-after-load 'c++-mode
   ;;   (define-key c++-mode-map (kbd "<tab>") 'company-clang))
