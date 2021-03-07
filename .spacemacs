@@ -42,10 +42,13 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      ;; auto-completion
      ;; better-defaults
+     imenu-list
      emacs-lisp
      git
      helm
-     lsp
+     (lsp :variables
+          lsp-use-lsp-ui t)
+
      ;; markdown
      multiple-cursors
      org

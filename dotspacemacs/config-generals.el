@@ -21,3 +21,4 @@
   (add-hook 'treemacs-mode-hook
             (lambda () (text-scale-decrease 1)))
   )
+
