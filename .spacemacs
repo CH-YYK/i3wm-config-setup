@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(csv
+   '(yaml
+     csv
      (javascript :variables
                  javascript-backend 'lsp)
      ;; ----------------------------------------------------------------
@@ -59,11 +60,12 @@ This function should only modify configuration layer settings."
             c-c++-adopt-subprojects t
             c-c++-backend 'lsp-ccls
             c-c++-dap-adapters '(dap-cpptools))
-		 (auto-completion :variable
+     (ess :variables ess-r-backend 'lsp)
+     (auto-completion :variable
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle
                       auto-completion-idle-delay 0.0
-											auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-snippets-in-popup t
                       )
      sql
      (python :variables
@@ -71,8 +73,8 @@ This function should only modify configuration layer settings."
              python-lsp-server 'pyls
              python-tab-width 4)
      (shell :variables
-             shell-default-height 30
-             shell-default-position 'bottom)
+            shell-default-height 30
+            shell-default-position 'bottom)
      ;; spell-checking
      ;; (syntax-checking :variables
      ;;                  syntax-checking-enable-by-default nil)
@@ -260,10 +262,11 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("JetBrains Mono"
-                               :size 11.0
+                               :size 10.0
                                :weight normal
                                :width normal
-			       )
+                               :powerline-scale 1.2
+                               )
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -547,11 +550,12 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-	;; treemacs appearance settings
+
+  ;; treemacs appearance settings
   ;; (setq global-company-mode t)  set value to env
   (setq-default truncate-lines t)
   (setq terminal-here-linux-terminal-command
-		'gnome-terminal)
+        'gnome-terminal)
   ;;  		'("urxvt" "-title" "floating" "-geometry" "100x23"))
 
   ;; line numbers on
@@ -584,11 +588,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" default)))
+    ("0e2a7e1e632dd38a8e0227d2227cb8849f877dd878afb8219cb6bcdd02068a52" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "8f5a7a9a3c510ef9cbb88e600c0b4c53cdcdb502cfe3eb50040b7e13c6f4e78e" "fce3524887a0994f8b9b047aef9cc4cc017c5a93a5fb1f84d300391fba313743" "fd22c8c803f2dac71db953b93df6560b6b058cb931ac12f688def67f08c10640" "0fe24de6d37ea5a7724c56f0bb01efcbb3fe999a6e461ec1392f3c3b105cc5ac" "56d10d2b60685d112dd54f4ba68a173c102eacc2a6048d417998249085383da1" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" "e6ff132edb1bfa0645e2ba032c44ce94a3bd3c15e3929cdf6c049802cf059a2a" "76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" default)))
  '(evil-want-Y-yank-to-eol nil)
+ '(helm-completion-style (quote emacs))
  '(package-selected-packages
    (quote
-    (xterm-color vterm terminal-here shell-pop multi-term eshell-z eshell-prompt-extras esh-help csv-mode yapfify ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toc-org spaceline powerline restart-emacs request rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor transient git-gutter fuzzy flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu elisp-slime-nav dumb-jump doom-themes disaster diminish diff-hl define-word cython-mode company-statistics company-c-headers company-anaconda company column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup doom-dark+-theme))))
+    (yaml-mode ess-R-data-view ess xterm-color vterm terminal-here shell-pop multi-term eshell-z eshell-prompt-extras esh-help csv-mode yapfify ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toc-org spaceline powerline restart-emacs request rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree move-text macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor transient git-gutter fuzzy flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu elisp-slime-nav dumb-jump doom-themes disaster diminish diff-hl define-word cython-mode company-statistics company-c-headers company-anaconda company column-enforce-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup doom-dark+-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
